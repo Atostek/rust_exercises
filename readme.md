@@ -2,7 +2,7 @@
 
 ## Download
 Clone this repository
-````
+```
 git clone https://github.com/Atostek/rust_exercises.git
 ```
 and see the problems in `src/main.rs`
