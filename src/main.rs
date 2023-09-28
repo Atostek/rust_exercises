@@ -8,7 +8,7 @@
 /// 
 /// You can run individual test cases with 
 ///     cargo test <test case name>
-/// Or you can run all test cases that begin with common prefixs
+/// Or you can run all test cases that begin with common prefix
 ///     cargo test <common prefix>
 /// For example, to run all tests of the problem 2:
 ///     cargo test test_problem_2
