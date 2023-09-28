@@ -34,6 +34,7 @@
 ///     - Vec::new(), .push(), .pop();
 /// - match expression is useful for this problem 
 ///     - https://doc.rust-lang.org/rust-by-example/flow_control/match.html
+/// - Iterate over (unicode) characters of a string with input.chars()
 fn matching_parenthesis(input: &str) -> bool {
     unimplemented!()
 }
