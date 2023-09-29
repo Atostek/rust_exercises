@@ -75,6 +75,7 @@ impl NonEmptyLinkedList {
     }
 
     /// Adds an element to the end list with O(1) computation time.
+    /// Note that this consumes the calling list and returns a new list.
     fn push(self, item: i32) -> NonEmptyLinkedList {
         unimplemented!()
     }
