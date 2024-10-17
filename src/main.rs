@@ -13,11 +13,12 @@
 /// For example, to run all tests of the problem 2:
 ///     cargo test test_problem_2
 /// 
-/// Instead of running unit tests, you can also call the code from
-/// the main()-function. In that case you can run it with a command
+/// When testing the functions, you can debug print variables with
+///     dbg!(some_variable);
+/// Unit test runs are not the most convenient for debug printting, 
+/// because it also prints a lot of excess stuff. You can also call 
+/// the functions from the main()-function. For that case, run it with:
 ///     cargo run
-/// This is useful for debug-prints, because tests suppress the output.
-
 
 
 
@@ -58,9 +59,10 @@ fn test_problem_1 () {
 /// Write a non-empty linked list that stores signed integers (i32). 
 /// You may use or modify the struct 'NonEmptyLinkedList' below. 
 /// Implement the methods in `impl` block by following the documentation and the unit tests.
-/// 
+
 /// Node of a non-empty linked list. 
 /// Both terms "list" and "node" are used to refer this struct.
+#[derive(PartialEq, Debug)]  // Allows tests to check equality and print the struct if it fails.
 struct NonEmptyLinkedList {
     num: i32,
     next: Option<Box<NonEmptyLinkedList>>
@@ -262,6 +264,7 @@ fn test_problem_4_out_of_bounds() {
 // --------------------
 
 
+// You can test your functions by calling them from here, and running 'cargo run'.
 fn main() {
 
 
