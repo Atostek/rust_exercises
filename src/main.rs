@@ -56,36 +56,41 @@ fn test_problem_1 () {
 /// Problem 2
 /// 
 /// Write a non-empty linked list that stores signed integers (i32). 
-/// You may use (or modify) the struct below. 
-/// Implement the methods in `impl` block by following documentation and unit tests below.
+/// You may use or modify the struct 'NonEmptyLinkedList' below. 
+/// Implement the methods in `impl` block by following the documentation and the unit tests.
 /// 
-/// Note:
-/// - The line below, #[derive(..)], is an attribute, and it auto-implements partial equality and 
-///   debug-printability.
-#[derive(PartialEq, Debug)]
+/// Node of a non-empty linked list. 
+/// Both terms "list" and "node" are used to refer this struct.
 struct NonEmptyLinkedList {
     num: i32,
     next: Option<Box<NonEmptyLinkedList>>
 }
 
 impl NonEmptyLinkedList {
-    /// Creates a new list with one element.
+    /// Create a new list with one element
+    /// Tip: That is, initialize a node with next = None
     fn new(item: i32) -> NonEmptyLinkedList {
         unimplemented!()
     }
 
-    /// Adds an element to the end list with O(1) computation time.
-    /// Note that this consumes the calling list and returns a new list.
+    /// Add an element to the end list with O(1) computation time.
+    /// Note 1: This method does not modify the list/node, but rather it creates a new one.
+    /// Note 2: The the parameter 'self' is a type of a value, (and not a reference '&self'). 
+    ///         This means you have ownership of the list, and you can move it.
+    /// Tip: While there are many ways to make a new node, the easiest is to move the current 
+    /// node inside the new one.
     fn push(self, item: i32) -> NonEmptyLinkedList {
         unimplemented!()
     }
 
-    /// Converts the list to a String. 
+    /// Convert the list to a String so that the most recently added value is last value in list.
+    /// Note: You need to print the list in inverse order.
+    /// Tip: This can be solved for example with a temporary vector or recursion.
     fn to_string(&self) -> String {
         unimplemented!()
     }
     
-    /// Overwrites the last element in the list
+    /// Overwrite the last element in the list
     fn set_last(&mut self, new_value: i32) {
         unimplemented!()
     }
@@ -98,7 +103,6 @@ fn test_problem_2_new () {
 }
 #[test]
 fn test_problem_2_push () {
-    // test push()
     let l = NonEmptyLinkedList::new(1).push(2);
     assert_eq!(l, NonEmptyLinkedList {num: 2, next: Some(Box::new(NonEmptyLinkedList {num: 1, next: None}))});
 }
@@ -109,7 +113,6 @@ fn test_problem_2_to_string () {
 }
 #[test]
 fn test_problem_2_set_last () {
-    // test set_last()
     let mut l = NonEmptyLinkedList::new(1).push(2);
     l.set_last(4);
     assert_eq!(l, NonEmptyLinkedList {num: 4, next: Some(Box::new(NonEmptyLinkedList {num: 1, next: None}))});
@@ -122,11 +125,9 @@ fn test_problem_2_set_last () {
 /// Problem 3 a)
 /// 
 /// Write a function that checks if given positive number is a prime.
-/// You can use test_prime() to test the algorithm.
 /// 
-/// Tips:
-/// - number 1 is prime
-/// - To check if N is prime, just check that no whole number between 2..sqrt(N) divides N. 
+/// Tip: Number 1 is prime. To check if N is prime, check that no whole number 
+///      between 2..sqrt(N) divides N. 
 fn is_prime(n: u64) -> bool {
     unimplemented!()
 }
@@ -141,12 +142,18 @@ fn test_problem_3_a() {
 /// Problem 3 b)
 /// 
 /// Make a function that finds all primes betwee two numbers using previous `is_prime()`-function.
-/// Use iterators instead of for-loop. That is, start with a range `start..end`, then filter only 
-/// those numbers that are primes, and then collect them into a vector.
-/// 
-/// Tips
-/// - range a..b is also an iterator. Thus you can call iterator methods directly on it.
-///     - Though you need to add parenthesis around it like so: `(1..9).map(|x| x*x)`
+/// This is pretty straight-forward with a for-loop, but let's learn iterators instead.
+/// That is, start with a range `start..end`, then filter only those numbers that are primes, 
+/// and then collect them into a vector.
+///
+/// Tips:
+/// - Range a..b is an iterator. Thus you can call iterator methods directly on it. For example:
+///     (1..9).map(|x| x * x)
+/// - For reference of the iterator syntax, we had this code example in slides of the day one:
+///     let even_squares = numbers.iter()
+///         .filter(|&x| x % 2 == 0)
+///         .map(|x| x * x)
+///         .collect::<Vec<_>>();
 /// - Documentation:
 ///     - range: https://doc.rust-lang.org/stable/std/ops/struct.Range.html
 ///     - iterator: https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html
@@ -164,7 +171,8 @@ fn test_problem_3_b() {
 
 /// Problem 3 c)
 /// 
-/// Take your previous implementation, and make it utilize multithreading!
+/// Take your previous implementation, and make it utilize multithreading! 
+/// That is, use parallel threads to calculate all primes between two numbers.
 /// Use a third party library called "rayon": https://docs.rs/rayon/latest/rayon/iter/index.html
 /// 
 /// Tips:
@@ -181,7 +189,6 @@ fn test_problem_3_b() {
 ///         let now = std::time::Instant::now();
 ///         // run some code
 ///         println!("Elapsed {} ms", now.elapsed().as_millis());
-///     - Tests suppresses output, so you need to run this from main() to see elapsed time
 ///     - If you want to run with optimizations, use
 ///         cargo run --release
 fn primes_between_parallel(start: u64, end: u64) -> Vec<u64> {
@@ -202,8 +209,8 @@ fn test_problem_3_c() {
 
 /// Problem 4
 /// 
-/// Note: This following problem may be a bit more difficult than others, and it is presented here 
-/// only if there's a need for more. It refers to slices, which were not coverd on the day 1. 
+/// This following problem is more difficult than others, and it is presented here only if
+/// there's a need for more challenge. It refers to slices, which were not coverd on the day 1. 
 /// A slice is a reference to range of data. For example a string slice `"text"[1..3]` evaluates 
 /// to "ex".
 /// 
@@ -216,13 +223,10 @@ fn test_problem_3_c() {
 /// Use method `s.char_indices()` to obtain iterator over valid unicode characters with indices.
 /// https://doc.rust-lang.org/stable/std/primitive.str.html#method.char_indices
 /// 
-/// If you want an extra challenge, avoid a second redundant iteration. That is, save the iterator 
-/// into variable, progress it to find `begin_byte`, then progress it some more to find `end_byte`.
-/// 
 /// Tips:
 /// - If you need to take n:th value from iterator, use `.nth(n)`. This consumes the values up to n.
 /// - If you need to append a value into iterator, you can use `.chain(std::iter::once(some_value))`
-/// - This function returns Option. So you can use `?` to unrwrap functions that return an option.
+/// - This function returns Option. So you can use `?` to unwrap functions that return an option.
 /// - Iterator documentation: https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html
 fn substr(s: &str, begin: usize, end: usize) -> Option<&str> {
     let begin_byte = begin;
