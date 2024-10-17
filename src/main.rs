@@ -1,4 +1,4 @@
-#![allow(unused_variables)]  // Do not warn about unimplemented functions
+#![allow(unused_variables, dead_code)]  // Do not warn about unimplemented functions
 
 /// Rust exercices
 /// Implement functions by following instructions and unit tests.
