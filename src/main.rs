@@ -7,22 +7,105 @@
 ///     git clone https://github.com/Atostek/rust_exercises.git
 /// 
 /// You can run individual test cases with 
-///     cargo test <test case name>
-/// Or you can run all test cases that begin with common prefix
+///     cargo test <test function>
+/// For example: 
+///     cargo test test_problem_1_new
+/// Or you can run all test cases that begin with a common prefix
 ///     cargo test <common prefix>
-/// For example, to run all tests of the problem 2:
-///     cargo test test_problem_2
+/// For example, to run all tests of the problem 1:
+///     cargo test test_problem_1
 /// 
-/// When testing the functions, you can debug print variables with
-///     dbg!(some_variable);
-/// Unit test runs are not the most convenient for debug printting, 
-/// because it also prints a lot of excess stuff. You can also call 
-/// the functions from the main()-function. For that case, run it with:
-///     cargo run
+/// Tip: You can debug print variables with:
+///          dbg!(some_variable);
+///      Unit test runs are not the most convenient ways to test if debug printing is used, 
+///      because tests also prints other information. To see clear output, you can call 
+///      the functions from the main()-function. For that case, run the main-function with:
+///          cargo run
 
 
+// -------------
 
-/// Problem1
+
+/// Problem 1
+/// 
+/// Write a non-empty linked list that stores signed integers (i32). 
+/// You may use or modify the struct 'NonEmptyLinkedList' below. 
+/// Implement the methods in `impl` block by following the documentation and the unit tests.
+
+/// Node of a non-empty linked list. The head of this list is the first item.
+/// Both terms "list" and "node" are used to refer this struct.
+#[derive(PartialEq, Debug)]  // Allows tests to check equality and print the struct if it fails.
+struct NonEmptyLinkedList {
+    num: i32,
+    next: Option<Box<NonEmptyLinkedList>>
+}
+
+impl NonEmptyLinkedList {
+    /// Create a new list with one element
+    /// Tip: That is, initialize a node with num=item next = None
+    fn new(item: i32) -> NonEmptyLinkedList {
+        unimplemented!()
+    }
+
+    /// Add an element to the front of the list with O(1) computation time.
+    /// Note: This method does not modify the list/node, but rather it creates a new one.
+    /// Note: The the parameter 'self' is a value, (and not a reference '&self'). 
+    ///       This means you have ownership of the list, and you can move it freely.
+    /// Tip: While there are many ways to make a new node, the most straight-forward way 
+    ///      is to move the current node inside the newly created one.
+    fn push_front(self, item: i32) -> NonEmptyLinkedList {
+        unimplemented!()
+    }
+
+    /// Overwrite the first element in the list
+    fn set_front(&mut self, new_value: i32) {
+        unimplemented!()
+    }
+
+    /// Convert the list into a string.
+    /// This part may be more difficult, feel free to skip if stuck.
+    ///
+    /// Tip: You can format text into end of a string with:
+    ///          use std::fmt::Write;
+    ///          write!(&mut my_string, "a formatted number: {}", number).unwrap();
+    /// Tip: You can iterate the node structure with "while let" -syntax:
+    ///          while let Some(next_node) = &node.next {
+    ///              ...
+    ///              node = next_node;
+    ///          }
+    /// Tip: Rust string acts like a vector. You can remove the last character with .pop()
+    fn to_string(&self) -> String {
+        unimplemented!()
+    }
+}
+
+#[test]
+fn test_problem_1_new () {
+    let l = NonEmptyLinkedList::new(1);
+    assert_eq!(l, NonEmptyLinkedList {num: 1, next: None});
+}
+#[test]
+fn test_problem_1_push_front () {
+    let l = NonEmptyLinkedList::new(1).push_front(2);
+    assert_eq!(l, NonEmptyLinkedList {num: 2, next: Some(Box::new(NonEmptyLinkedList {num: 1, next: None}))});
+}
+#[test]
+fn test_problem_1_set_front () {
+    let mut l = NonEmptyLinkedList::new(1).push_front(2);
+    l.set_front(4);
+    assert_eq!(l, NonEmptyLinkedList {num: 4, next: Some(Box::new(NonEmptyLinkedList {num: 1, next: None}))});
+}
+#[test]
+fn test_problem_1_to_string () {
+    let l = NonEmptyLinkedList::new(1).push_front(2).push_front(3);
+    assert_eq!(l.to_string(), "[3, 2, 1]");
+}
+
+
+// -------------
+
+
+/// Problem 2
 /// 
 /// Write a function that checks if all parenthesis in a string match each other.
 /// There can be three types of parenthesis () [] {}, and they can be nested. 
@@ -33,15 +116,16 @@
 /// - This problem is easiest to solve with a stack
 /// - See std vector: https://doc.rust-lang.org/std/vec/struct.Vec.html
 ///     - Vec::new(), .push(), .pop();
-/// - match expression is useful for this problem 
+/// - match-expression is useful for this problem 
 ///     - https://doc.rust-lang.org/rust-by-example/flow_control/match.html
-/// - Iterate over (unicode) characters of a string with input.chars()
+/// - You can iterate over characters of a string with:
+///     for c in input.chars() {...}
 fn matching_parenthesis(input: &str) -> bool {
     unimplemented!()
 }
 
 #[test]
-fn test_problem_1 () {
+fn test_problem_2 () {
     assert_eq!(matching_parenthesis("(asdf)"), true);
     assert_eq!(matching_parenthesis(")asdf("), false);
     assert_eq!(matching_parenthesis("(asdf))"), false);
@@ -54,81 +138,11 @@ fn test_problem_1 () {
 // -------------
 
 
-/// Problem 2
-/// 
-/// Write a non-empty linked list that stores signed integers (i32). 
-/// You may use or modify the struct 'NonEmptyLinkedList' below. 
-/// Implement the methods in `impl` block by following the documentation and the unit tests.
-
-/// Node of a non-empty linked list. 
-/// Both terms "list" and "node" are used to refer this struct.
-#[derive(PartialEq, Debug)]  // Allows tests to check equality and print the struct if it fails.
-struct NonEmptyLinkedList {
-    num: i32,
-    next: Option<Box<NonEmptyLinkedList>>
-}
-
-impl NonEmptyLinkedList {
-    /// Create a new list with one element
-    /// Tip: That is, initialize a node with next = None
-    fn new(item: i32) -> NonEmptyLinkedList {
-        unimplemented!()
-    }
-
-    /// Add an element to the end list with O(1) computation time.
-    /// Note 1: This method does not modify the list/node, but rather it creates a new one.
-    /// Note 2: The the parameter 'self' is a type of a value, (and not a reference '&self'). 
-    ///         This means you have ownership of the list, and you can move it.
-    /// Tip: While there are many ways to make a new node, the easiest is to move the current 
-    /// node inside the new one.
-    fn push(self, item: i32) -> NonEmptyLinkedList {
-        unimplemented!()
-    }
-
-    /// Convert the list to a String so that the most recently added value is last value in list.
-    /// Note: You need to print the list in inverse order.
-    /// Tip: This can be solved for example with a temporary vector or recursion.
-    fn to_string(&self) -> String {
-        unimplemented!()
-    }
-    
-    /// Overwrite the last element in the list
-    fn set_last(&mut self, new_value: i32) {
-        unimplemented!()
-    }
-}
-
-#[test]
-fn test_problem_2_new () {
-    let l = NonEmptyLinkedList::new(1);
-    assert_eq!(l, NonEmptyLinkedList {num: 1, next: None});
-}
-#[test]
-fn test_problem_2_push () {
-    let l = NonEmptyLinkedList::new(1).push(2);
-    assert_eq!(l, NonEmptyLinkedList {num: 2, next: Some(Box::new(NonEmptyLinkedList {num: 1, next: None}))});
-}
-#[test]
-fn test_problem_2_to_string () {
-    let l = NonEmptyLinkedList::new(1).push(2).push(3);
-    assert_eq!(l.to_string(), "[1, 2, 3]");
-}
-#[test]
-fn test_problem_2_set_last () {
-    let mut l = NonEmptyLinkedList::new(1).push(2);
-    l.set_last(4);
-    assert_eq!(l, NonEmptyLinkedList {num: 4, next: Some(Box::new(NonEmptyLinkedList {num: 1, next: None}))});
-}
-
-
-// -------------
-
-
 /// Problem 3 a)
 /// 
 /// Write a function that checks if given positive number is a prime.
 /// 
-/// Tip: Number 1 is prime. To check if N is prime, check that no whole number 
+/// Tip: Number 1 is a prime. To check if N is a prime, check that no whole number 
 ///      between 2..sqrt(N) divides N. 
 fn is_prime(n: u64) -> bool {
     unimplemented!()
@@ -143,22 +157,20 @@ fn test_problem_3_a() {
 
 /// Problem 3 b)
 /// 
-/// Make a function that finds all primes betwee two numbers using previous `is_prime()`-function.
-/// This is pretty straight-forward with a for-loop, but let's learn iterators instead.
-/// That is, start with a range `start..end`, then filter only those numbers that are primes, 
-/// and then collect them into a vector.
+/// Make a function that finds all primes between two numbers using `is_prime()` from the
+/// previous part. Use iterators instead of a for-loop. (Part-c depends on this part to 
+/// be solved with iterators.)
 ///
 /// Tips:
-/// - Range a..b is an iterator. Thus you can call iterator methods directly on it. For example:
-///     (1..9).map(|x| x * x)
-/// - For reference of the iterator syntax, we had this code example in slides of the day one:
-///     let even_squares = numbers.iter()
-///         .filter(|&x| x % 2 == 0)
-///         .map(|x| x * x)
-///         .collect::<Vec<_>>();
-/// - Documentation:
-///     - range: https://doc.rust-lang.org/stable/std/ops/struct.Range.html
-///     - iterator: https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html
+/// - To create iterator over range of numbers, use `(start..end)`. Then take primes, 
+///   and collect them into a vector.
+/// - For the reference of the syntax, this was a code example from the slides of day one
+///       let even_squares = numbers.iter()
+///           .filter(|&x| x % 2 == 0)
+///           .map(|x| x * x)
+///           .collect::<Vec<_>>();
+/// - For more, see documentation on iterator:
+///     https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html
 fn primes_between(start: u64, end: u64) -> Vec<u64> {
     unimplemented!()
 }
@@ -173,8 +185,7 @@ fn test_problem_3_b() {
 
 /// Problem 3 c)
 /// 
-/// Take your previous implementation, and make it utilize multithreading! 
-/// That is, use parallel threads to calculate all primes between two numbers.
+/// Take your previous implementation, and parallellize it with multithreading! 
 /// Use a third party library called "rayon": https://docs.rs/rayon/latest/rayon/iter/index.html
 /// 
 /// Tips:
@@ -186,13 +197,6 @@ fn test_problem_3_b() {
 ///     use rayon::prelude::*;
 /// - A range x..y can be turned into parallel iterator with 
 ///     (x..y).into_par_iter()
-/// - For additional experimentation
-///     - If you are interested on performance, you can measure execution time with:
-///         let now = std::time::Instant::now();
-///         // run some code
-///         println!("Elapsed {} ms", now.elapsed().as_millis());
-///     - If you want to run with optimizations, use
-///         cargo run --release
 fn primes_between_parallel(start: u64, end: u64) -> Vec<u64> {
     unimplemented!()
 }
@@ -206,13 +210,13 @@ fn test_problem_3_c() {
 }
 
 
-// --------------------
+// -------------
 
 
 /// Problem 4
 /// 
 /// This following problem is more difficult than others, and it is presented here only if
-/// there's a need for more challenge. It refers to slices, which were not coverd on the day 1. 
+/// more challenge is wanted. It refers to slices, which were not coverd on the day 1. 
 /// A slice is a reference to range of data. For example a string slice `"text"[1..3]` evaluates 
 /// to "ex".
 /// 
@@ -266,6 +270,5 @@ fn test_problem_4_out_of_bounds() {
 
 // You can test your functions by calling them from here, and running 'cargo run'.
 fn main() {
-
 
 }
