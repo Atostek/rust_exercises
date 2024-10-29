@@ -17,9 +17,9 @@
 /// 
 /// Tip: You can debug print variables with:
 ///          dbg!(some_variable);
-///      Unit test runs are not the most convenient ways to test if debug printing is used, 
-///      because tests also prints other information. To see clear output, you can call 
-///      the functions from the main()-function. For that case, run the main-function with:
+///      Unit test runs are not the most convenient for debug printing, because
+///      tests also print other information. To see clear output, you can call the
+///      functions from the main()-function. For that case, run the main-function with:
 ///          cargo run
 
 
@@ -49,7 +49,7 @@ impl NonEmptyLinkedList {
 
     /// Add an element to the front of the list with O(1) computation time.
     /// Note: This method does not modify the list/node, but rather it creates a new one.
-    /// Note: The the parameter 'self' is a value, (and not a reference '&self'). 
+    /// Note: The input parameter 'self' is a value, (and not a reference '&self'). 
     ///       This means you have ownership of the list, and you can move it freely.
     /// Tip: While there are many ways to make a new node, the most straight-forward way 
     ///      is to move the current node inside the newly created one.
@@ -164,7 +164,7 @@ fn test_problem_3_a() {
 /// Tips:
 /// - To create iterator over range of numbers, use `(start..end)`. Then take primes, 
 ///   and collect them into a vector.
-/// - For the reference of the syntax, this was a code example from the slides of day one
+/// - For the reference of the syntax, this was a code example from the slides
 ///       let even_squares = numbers.iter()
 ///           .filter(|&x| x % 2 == 0)
 ///           .map(|x| x * x)
@@ -216,9 +216,7 @@ fn test_problem_3_c() {
 /// Problem 4
 /// 
 /// This following problem is more difficult than others, and it is presented here only if
-/// more challenge is wanted. It refers to slices, which were not coverd on the day 1. 
-/// A slice is a reference to range of data. For example a string slice `"text"[1..3]` evaluates 
-/// to "ex".
+/// more challenge is wanted.
 /// 
 /// Following function returns a substring of given input string slice.
 /// However, it does not take UTF-8 (unicode) inputs into account. Thus, if input text contains 
@@ -244,11 +242,11 @@ fn substr(s: &str, begin: usize, end: usize) -> Option<&str> {
 const TEXT: &str = "tekstiä🙂";
 #[test]
 fn test_problem_4_empty() {
-    assert_eq!(Some(""),        substr(TEXT, 2, 2));
+    assert_eq!(Some(""), substr(TEXT, 2, 2));
 }
 #[test]
 fn test_problem_4_ascii() {
-    assert_eq!(Some("ekst"),    substr(TEXT, 1, 5));
+    assert_eq!(Some("ekst"), substr(TEXT, 1, 5));
 }
 #[test]
 fn test_problem_4_scandinavian() {
@@ -256,12 +254,12 @@ fn test_problem_4_scandinavian() {
 }
 #[test]
 fn test_problem_4_emojis() {
-    assert_eq!(Some("ä🙂"),     substr(TEXT, 6, 8));
+    assert_eq!(Some("ä🙂"), substr(TEXT, 6, 8));
 }
 #[test]
 fn test_problem_4_out_of_bounds() {
-    assert_eq!(None,            substr(TEXT, 6, 9));
-    assert_eq!(None,            substr(TEXT, 9, 6));
+    assert_eq!(None, substr(TEXT, 6, 9));
+    assert_eq!(None, substr(TEXT, 9, 6));
 }
 
 
