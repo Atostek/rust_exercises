@@ -24,7 +24,7 @@
 
 
 // -------------
-mod solutions;
+
 
 /// Problem 1
 /// 
@@ -44,7 +44,7 @@ impl NonEmptyLinkedList {
     /// Create a new list with one element
     /// Tip: That is, initialize a node with num=item next = None
     fn new(item: i32) -> NonEmptyLinkedList {
-        unimplemented!()
+        NonEmptyLinkedList {num: item, next: None}
     }
 
     /// Add an element to the front of the list with O(1) computation time.
@@ -54,12 +54,12 @@ impl NonEmptyLinkedList {
     /// Tip: While there are many ways to make a new node, the most straight-forward way 
     ///      is to move the current node inside the newly created one.
     fn push_front(self, item: i32) -> NonEmptyLinkedList {
-        unimplemented!()
+        NonEmptyLinkedList {num: item, next: Some(Box::new(self))}
     }
 
     /// Overwrite the first element in the list
     fn set_front(&mut self, new_value: i32) {
-        unimplemented!()
+        self.num = new_value;
     }
 
     /// Convert the list into a string.
@@ -75,7 +75,18 @@ impl NonEmptyLinkedList {
     ///          }
     /// Tip: Rust string acts like a vector. You can remove the last character with .pop()
     fn to_string(&self) -> String {
-        unimplemented!()
+        use std::fmt::Write;
+
+        let mut node = self;
+        let mut output = format!("[");
+
+        while let Some(next_node) = &node.next {
+            write!(output, "{}, ", node.num).unwrap();
+            node = next_node;
+        }
+        write!(output, "{}]", node.num).unwrap();
+
+        output
     }
 }
 
@@ -121,7 +132,21 @@ fn test_problem_1_to_string () {
 /// - You can iterate over characters of a string with:
 ///     for c in input.chars() {...}
 fn matching_parenthesis(input: &str) -> bool {
-    unimplemented!()
+    let mut stack = Vec::new();
+    for c in input.chars() {
+        match c {
+            '(' | '[' | '{' => stack.push(c),
+            ')' | ']' | '}' => {
+                let Some(prev) = stack.pop() else { return false; };
+                match (prev, c) {
+                    ('(', ')') | ('[', ']') | ('{', '}') => (),
+                    _ => return false,
+                }
+            }
+            _ => (),
+        }
+    }
+    stack.is_empty()
 }
 
 #[test]
@@ -145,7 +170,8 @@ fn test_problem_2 () {
 /// Tip: Number 1 is a prime. To check if N is a prime, check that no whole number 
 ///      between 2..sqrt(N) divides N. 
 fn is_prime(n: u64) -> bool {
-    unimplemented!()
+    let sqrt = (n as f64).sqrt().ceil() as u64;
+    (2..sqrt).all(|i| n % i != 0 )
 }
 
 #[test]
@@ -172,7 +198,7 @@ fn test_problem_3_a() {
 /// - For more, see documentation on iterator:
 ///     https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html
 fn primes_between(start: u64, end: u64) -> Vec<u64> {
-    unimplemented!()
+    (start..end).filter(|n| is_prime(*n)).collect()
 }
 
 #[test]
@@ -198,7 +224,8 @@ fn test_problem_3_b() {
 /// - A range x..y can be turned into parallel iterator with 
 ///     (x..y).into_par_iter()
 fn primes_between_parallel(start: u64, end: u64) -> Vec<u64> {
-    unimplemented!()
+    use rayon::prelude::*;
+    (start..end).into_par_iter().filter(|n| is_prime(*n)).collect()
 }
 
 #[test]
@@ -233,9 +260,14 @@ fn test_problem_3_c() {
 /// - This function returns Option. So you can use `?` to unwrap functions that return an option.
 /// - Iterator documentation: https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html
 fn substr(s: &str, begin: usize, end: usize) -> Option<&str> {
-    let begin_byte = begin;
-    let end_byte = end;
-
+    let last_idx = std::iter::once(s.len());
+    let mut itr = s.char_indices().map(|(n, _)| n).chain(last_idx);
+    let begin_byte = itr.nth(begin)?;
+    let end_byte = if begin >= end {
+        begin_byte
+    } else {
+        itr.nth(end-begin-1)?
+    };
     Some(&s[begin_byte..end_byte])
 }
 
